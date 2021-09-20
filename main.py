@@ -8,5 +8,5 @@ if len(argv) < 2:
 with open(argv[1]) as f:
     points = [Point(*line.split()) for line in f]
 
-for index in Graham(points).convex_hull():
-    print(index)
+for point in Graham(points).convex_hull():
+    print(point)
