@@ -41,7 +41,9 @@ class Graham:
 
         # actually, there is no need to exclude P from self.points,
         # because after meeting P, any subsequent turn will be 'right' turn
-        # and P will be popped from stack
+        # and P will be popped from stack; but P may appear two times
+        # as first and last element (it will be when P is also left-most point
+        # in input point list)
 
         # sort by polar angle with Ox
         self.points.sort(
