@@ -58,6 +58,7 @@ class Graham:
             stack.append(p)
         
         # pop duplicate
-        stack[0] == stack[-1] and stack.pop()
+        if stack[0] == stack[-1]:
+            stack.pop()
 
         return stack
