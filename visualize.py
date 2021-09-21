@@ -17,8 +17,8 @@ fig = go.Figure()
 xs = sorted(map(lambda p: p.x, points))
 ys = sorted(map(lambda p: p.y, points))
 
-fig.update_xaxes(range=[xs[0]-10, xs[-1]+10])
-fig.update_yaxes(range=[ys[0]-10, ys[-1]+10])
+fig.update_xaxes(range=[xs[0], xs[-1]])
+fig.update_yaxes(range=[ys[0], ys[-1]])
 
 xs, ys = [p.x for p in points], [p.y for p in points]
 result_xs, result_ys = [p.x for p in result_points], [

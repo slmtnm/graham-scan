@@ -56,5 +56,8 @@ class Graham:
             while len(stack) > 1 and ccw(stack[-2], stack[-1], p) <= 0:
                 stack.pop()
             stack.append(p)
+        
+        # pop duplicate
+        stack[0] == stack[-1] and stack.pop()
 
         return stack
