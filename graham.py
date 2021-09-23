@@ -32,6 +32,12 @@ def ccw(p1: Point, p2: Point, p3: Point) -> float:
     return (p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x)
 
 
+def polar_key(P: point) -> float:
+    def key(p: Point):
+        return ((p - P).normalized().dot(Point(1, 0)), (p - P).dot(p - P))
+    return key
+
+
 class Graham:
     def __init__(self, points: List[Point]) -> None:
         self.points = points
@@ -42,10 +48,7 @@ class Graham:
         self.points.pop(i)
 
         # sort by polar angle with Ox
-        self.points.sort(
-            key=lambda p: (p - P).normalized().dot(Point(1, 0)),
-            reverse=True
-        )
+        self.points.sort(key=polar_key(P), reverse=True)
 
         stack = [P]
         for p in self.points:
