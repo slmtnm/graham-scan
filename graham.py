@@ -32,7 +32,7 @@ def ccw(p1: Point, p2: Point, p3: Point) -> float:
     return (p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x)
 
 
-def polar_key(P: point) -> Callable[[Point], float]:
+def polar_key(P: Point) -> Callable[[Point], float]:
     '''Constructs polar angle (with Ox) key'''
     def key(p: Point):
         d = p - P
