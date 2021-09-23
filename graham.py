@@ -36,7 +36,7 @@ def polar_key(P: Point) -> Callable[[Point], float]:
     '''Constructs polar angle (with Ox) key'''
     def key(p: Point):
         d = p - P
-        return (d.normalized().dot(Point(1, 0)), d.dot(d))
+        return (d.normalized().dot(Point(1, 0)), -d.dot(d))
     return key
 
 
