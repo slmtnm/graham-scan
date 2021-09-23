@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import List
 from math import sqrt
+from operator import itemgetter
 
 
 class Point:
@@ -37,13 +38,8 @@ class Graham:
 
     def convex_hull(self) -> List[Point]:
         # lowest point
-        P = min(self.points)
-
-        # actually, there is no need to exclude P from self.points,
-        # because after meeting P, any subsequent turn will be 'right' turn
-        # and P will be popped from stack; but P may appear two times
-        # as first and last element (it will be when P is also left-most point
-        # in input point list)
+        i, P = min(enumerate(self.points), key=itemgetter(1))
+        self.points.pop(i)
 
         # sort by polar angle with Ox
         self.points.sort(
@@ -56,9 +52,5 @@ class Graham:
             while len(stack) > 1 and ccw(stack[-2], stack[-1], p) <= 0:
                 stack.pop()
             stack.append(p)
-        
-        # pop duplicate
-        if stack[0] == stack[-1]:
-            stack.pop()
 
         return stack
