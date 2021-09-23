@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import List
+from typing import List, Callable
 from math import sqrt
 from operator import itemgetter
 
@@ -32,7 +32,7 @@ def ccw(p1: Point, p2: Point, p3: Point) -> float:
     return (p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x)
 
 
-def polar_key(P: point) -> float:
+def polar_key(P: point) -> Callable[[Point], float]:
     def key(p: Point):
         return ((p - P).normalized().dot(Point(1, 0)), (p - P).dot(p - P))
     return key
