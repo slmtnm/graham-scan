@@ -34,7 +34,8 @@ def ccw(p1: Point, p2: Point, p3: Point) -> float:
 
 def polar_key(P: point) -> Callable[[Point], float]:
     def key(p: Point):
-        return ((p - P).normalized().dot(Point(1, 0)), (p - P).dot(p - P))
+        d = p - P
+        return (d.normalized().dot(Point(1, 0)), d.dot(d))
     return key
 
 
