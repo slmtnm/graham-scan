@@ -15,7 +15,7 @@ class Point:
         return Point(self.x - p.x, self.y - p.y)
 
     def __str__(self) -> str:
-        return '({}, {})'.format(self.x, self.y)
+        return str((self.x, self.y))
 
     def dot(self, p: Point) -> float:
         return self.x * p.x + self.y * p.y
@@ -33,28 +33,26 @@ def ccw(p1: Point, p2: Point, p3: Point) -> float:
 
 
 def polar_key(P: point) -> Callable[[Point], float]:
+    '''Constructs polar angle (with Ox) key'''
     def key(p: Point):
         d = p - P
         return (d.normalized().dot(Point(1, 0)), d.dot(d))
     return key
 
 
-class Graham:
-    def __init__(self, points: List[Point]) -> None:
-        self.points = points
+def convex_hull(points: List[Point]) -> List[Point]:
+    '''Calculates convex hull of given point list'''
+    points = list(points)
+    i, P = min(enumerate(points), key=itemgetter(1))
+    points.pop(i)
 
-    def convex_hull(self) -> List[Point]:
-        # lowest point
-        i, P = min(enumerate(self.points), key=itemgetter(1))
-        self.points.pop(i)
+    points.sort(key=polar_key(P), reverse=True)
 
-        # sort by polar angle with Ox
-        self.points.sort(key=polar_key(P), reverse=True)
+    stack = [P]
+    for p in points:
+        while len(stack) > 1 and ccw(stack[-2], stack[-1], p) <= 0:
+            stack.pop()
+        stack.append(p)
 
-        stack = [P]
-        for p in self.points:
-            while len(stack) > 1 and ccw(stack[-2], stack[-1], p) <= 0:
-                stack.pop()
-            stack.append(p)
+    return stack
 
-        return stack

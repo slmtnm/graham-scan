@@ -1,5 +1,5 @@
 from sys import argv
-from graham import Graham, Point
+from graham import Point, convex_hull
 
 if len(argv) < 2:
     print('Usage: python3 ./main.py <file-with-points>')
@@ -8,5 +8,5 @@ if len(argv) < 2:
 with open(argv[1]) as f:
     points = [Point(*line.split()) for line in f]
 
-for point in Graham(points).convex_hull():
+for point in convex_hull(points):
     print(point)
