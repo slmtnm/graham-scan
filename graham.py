@@ -59,4 +59,3 @@ def convex_hull(points: List[Point]) -> List[Point]:
         stack.append(p)
 
     return stack
-
