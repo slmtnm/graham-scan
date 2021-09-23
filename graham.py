@@ -1,12 +1,11 @@
 from __future__ import annotations
-from typing import List, Callable
-from math import sqrt
+from typing import List, Callable, Tuple
 from operator import itemgetter
-
+from slope import Slope
 
 class Point:
     def __init__(self, x, y):
-        self.x, self.y = float(x), float(y)
+        self.x, self.y = int(x), int(y)
 
     def __lt__(self, p: Point) -> bool:
         return self.y < p.y if self.y != p.y else self.x < p.x
@@ -20,26 +19,28 @@ class Point:
     def __str__(self) -> str:
         return str((self.x, self.y))
 
-    def dot(self, p: Point) -> float:
-        return self.x * p.x + self.y * p.y
-
-    def normalized(self) -> Point:
-        len = sqrt(self.x * self.x + self.y * self.y)
-        if len == 0:
-            return Point(0, 0)
-        return Point(self.x / len, self.y / len)
+    def len2(self) -> int:
+        return self.x * self.x + self.y * self.y
 
 
-def ccw(p1: Point, p2: Point, p3: Point) -> float:
+def ccw(p1: Point, p2: Point, p3: Point) -> int:
     '''Calculates z-coordinate of cross product of vectors p1p2 and p1p3'''
     return (p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x)
 
 
-def polar_key(P: Point) -> Callable[[Point], float]:
-    '''Constructs polar angle (with Ox) key'''
+class PolarComparable:
+    def __init__(self, s: Slope, len: int):
+        self.s = s
+        self.len = len
+    
+    def __lt__(self, other: PolarComparable):
+        return self.s < other.s if self.s != other.s else self.len < other.len
+
+
+def polar_key(P: Point) -> Callable[[Point], Tuple[Slope, int]]:
     def key(p: Point):
         d = p - P
-        return (d.normalized().dot(Point(1, 0)), -d.dot(d))
+        return PolarComparable(Slope(d.x, d.y), d.len2())
     return key
 
 
@@ -52,7 +53,7 @@ def convex_hull(points: List[Point]) -> List[Point]:
     points.pop(i)
 
     # sort by polar angle
-    points.sort(key=polar_key(P), reverse=True)
+    points.sort(key=polar_key(P))
 
     # construct convex hull
     stack = [P]

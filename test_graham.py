@@ -35,3 +35,16 @@ def test_simple2():
         Point(0, 6),
         Point(3, 5),
     ]
+
+def test_simple3():
+    points = [
+        Point(1, 0),
+        Point(3, 3),
+        Point(2, 2),
+        Point(0, 0),
+    ]
+    assert convex_hull(points) == [
+        Point(0, 0),
+        Point(1, 0),
+        Point(3, 3),
+    ]
