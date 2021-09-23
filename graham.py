@@ -43,11 +43,15 @@ def polar_key(P: point) -> Callable[[Point], float]:
 def convex_hull(points: List[Point]) -> List[Point]:
     '''Calculates convex hull of given point list'''
     points = list(points)
+
+    # find minimal point
     i, P = min(enumerate(points), key=itemgetter(1))
     points.pop(i)
 
+    # sort by polar angle
     points.sort(key=polar_key(P), reverse=True)
 
+    # construct convex hull
     stack = [P]
     for p in points:
         while len(stack) > 1 and ccw(stack[-2], stack[-1], p) <= 0:
