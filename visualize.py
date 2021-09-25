@@ -1,5 +1,6 @@
 import plotly.graph_objects as go
-from graham import Point, convex_hull
+from graham.point import Point
+from graham.convex_hull import convex_hull
 from sys import argv
 
 if len(argv) < 2:
@@ -7,7 +8,7 @@ if len(argv) < 2:
     exit(1)
 
 with open(argv[1]) as f:
-    points = [Point(*line.split()) for line in f]
+    points = [Point(*[int(c) for c in line.split()]) for line in f]
 
 result_points = convex_hull(points)
 result_points.append(result_points[0])  # close contour

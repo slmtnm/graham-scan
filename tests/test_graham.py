@@ -1,4 +1,5 @@
-from graham import Point, convex_hull
+from graham.point import Point
+from graham.convex_hull import convex_hull
 
 def test_three_one_line():
     points = [
